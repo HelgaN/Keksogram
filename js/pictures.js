@@ -51,8 +51,8 @@ for (var i = 0; i < photos.length; i++) {
 
 similarListElement.appendChild(fragment);
 
-document.querySelector(".gallery-overlay").classList.remove("hidden");
-
+//document.querySelector(".gallery-overlay").classList.remove("hidden");
+/*
 var galleryImage = document.querySelector(".gallery-overlay-image");
 var galleryLikes = document.querySelector(".likes-count");
 var galleryComments = document.querySelector(".comments-count");
@@ -79,3 +79,54 @@ if (photos[0].comments[0] !== undefined && photos[0].comments[1] !== undefined) 
 }
 
 countComments();
+*/
+var ESC_CODE = 27;
+var ENTER_CODE = 13;
+var pictures = document.querySelectorAll(".picture");
+
+var galleryImage = document.querySelector(".gallery-overlay-image");
+var galleryLikes = document.querySelector(".likes-count");
+var galleryComments = document.querySelector(".comments-count");
+
+var showPicture = function(evt) {
+evt.preventDefault();
+var pictureFull = document.querySelector(".gallery-overlay");
+pictureFull.classList.remove("hidden");
+};
+
+for (var i = 0 ; i < pictures.length; i++) {
+  pictures[i].addEventListener("click", showPicture);
+  galleryImage.src = photos[i].url;
+  galleryLikes.innerHTML = photos[i].likes;
+  var countComments = function() {
+
+  if (photos[i].comments[0] === undefined && photos[i].comments[1] === undefined) {
+    galleryComments.innerHTML = "0";
+  }
+
+  if (photos[i].comments[0] !== undefined && photos[i].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
+    photos[0].comments.join('');
+    galleryComments.innerHTML = "1";
+  }
+
+  if (photos[i].comments[0] !== undefined && photos[i].comments[1] !== undefined) {
+    galleryComments.innerHTML = "2";
+  }
+  }
+  countComments();
+};
+
+var buttonClose = document.querySelector(".gallery-overlay-close");
+
+var closePicture = function() {
+  var pictureFull = document.querySelector(".gallery-overlay");
+  pictureFull.classList.add("hidden");
+};
+
+buttonClose.addEventListener("click", closePicture);
+
+document.addEventListener("keydown", function(evt) {
+if(evt.keyCode === ESC_CODE) {
+    closePicture();
+  }
+})
