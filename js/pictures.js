@@ -26,7 +26,16 @@ for (var i = 0; i < 25; i++) {
   photos[i] = {
     url: "photos/" + numPhotoes[i] + ".jpg",
     likes: Math.floor(Math.random() * (200 - 15)) + 15,
-    comments: [comments[Math.floor(Math.random() * (comments.length + 1))], comments[Math.floor(Math.random() * (comments.length + 1))]]
+    comments: [comments[Math.floor(Math.random() * (comments.length))], comments[Math.floor(Math.random() * (comments.length+1))]]
+  }
+
+  console.log(photos[i].comments);
+
+  var Y = Math.random();
+  console.log(Y);
+
+  if(Y > 0.5) {
+    this.comments[1].pop;
   }
 }
 
@@ -38,7 +47,7 @@ var renderPhoto = function(photos) {
 
   photoElement.querySelector("img").src = photos.url;
   photoElement.querySelector(".picture-likes").innerHTML = photos.likes;
-  photoElement.querySelector(".picture-comments").innerHTML = photos.comments;
+  photoElement.querySelector(".picture-comments").innerHTML = photos.comments.length;
 
   return photoElement;
 }
@@ -52,34 +61,29 @@ for (var i = 0; i < photos.length; i++) {
 similarListElement.appendChild(fragment);
 
 //document.querySelector(".gallery-overlay").classList.remove("hidden");
-/*
+
 var galleryImage = document.querySelector(".gallery-overlay-image");
 var galleryLikes = document.querySelector(".likes-count");
 var galleryComments = document.querySelector(".comments-count");
 
-galleryImage.src = photos[0].url;
-galleryLikes.innerHTML = photos[0].likes;
-
-console.log(photos[0].comments);
-
 var countComments = function() {
 
-if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
-  galleryComments.innerHTML = "0";
-}
+  if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
+    return galleryComments.innerHTML = "0";
+  }
 
-if (photos[0].comments[0] !== undefined && photos[0].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
-  photos[0].comments.join('');
-  galleryComments.innerHTML = "1";
-}
+  if (photos[0].comments[0] !== undefined && photos[0].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
+    photos[0].comments.join('');
+    return galleryComments.innerHTML = "1";
+  }
 
-if (photos[0].comments[0] !== undefined && photos[0].comments[1] !== undefined) {
-  galleryComments.innerHTML = "2";
-}
+  if (photos[0].comments[0] !== undefined && photos[0].comments[1] !== undefined) {
+    return galleryComments.innerHTML = "2";
+  }
 }
 
 countComments();
-*/
+
 var ESC_CODE = 27;
 var ENTER_CODE = 13;
 var pictures = document.querySelectorAll(".picture");
@@ -88,33 +92,25 @@ var galleryImage = document.querySelector(".gallery-overlay-image");
 var galleryLikes = document.querySelector(".likes-count");
 var galleryComments = document.querySelector(".comments-count");
 
-var showPicture = function(evt) {
-evt.preventDefault();
-var pictureFull = document.querySelector(".gallery-overlay");
-pictureFull.classList.remove("hidden");
-};
+for (var k = 0; k < pictures.length; k++) {
+  pictures[k].addEventListener("click", function(evt) {
+    evt.preventDefault();
+    console.log(this);
 
-for (var i = 0 ; i < pictures.length; i++) {
-  pictures[i].addEventListener("click", showPicture);
-  galleryImage.src = photos[i].url;
-  galleryLikes.innerHTML = photos[i].likes;
-  var countComments = function() {
+      document.querySelector(".gallery-overlay").classList.remove("hidden");
+      var pictureThis = this.querySelector(".picture img");
+      var likesThis = this.querySelector(".picture-likes");
+      var commentsThis = this.querySelector(".picture-comments");
 
-  if (photos[i].comments[0] === undefined && photos[i].comments[1] === undefined) {
-    galleryComments.innerHTML = "0";
-  }
+      galleryImage.src = pictureThis.getAttribute('Src');
+      galleryLikes.innerHTML = likesThis.innerHTML;
+      galleryComments.innerHTML = commentsThis.innerHTML;
+      console.log(galleryComments);
 
-  if (photos[i].comments[0] !== undefined && photos[i].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
-    photos[0].comments.join('');
-    galleryComments.innerHTML = "1";
-  }
+  }  );
+}
 
-  if (photos[i].comments[0] !== undefined && photos[i].comments[1] !== undefined) {
-    galleryComments.innerHTML = "2";
-  }
-  }
-  countComments();
-};
+
 
 var buttonClose = document.querySelector(".gallery-overlay-close");
 
@@ -125,8 +121,8 @@ var closePicture = function() {
 
 buttonClose.addEventListener("click", closePicture);
 
-document.addEventListener("keydown", function(evt) {
-if(evt.keyCode === ESC_CODE) {
+document.addEventListener("keydown", function(evt) { // DOCUMENT ???
+  if (evt.keyCode === ESC_CODE) {
     closePicture();
   }
 })
