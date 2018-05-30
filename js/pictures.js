@@ -22,22 +22,23 @@ var comments = ["Всё отлично!", "В целом всё неплохо. 
 
 var photos = [];
 
-for (var i = 0; i < 25; i++) {
-  photos[i] = {
-    url: "photos/" + numPhotoes[i] + ".jpg",
-    likes: Math.floor(Math.random() * (200 - 15)) + 15,
-    comments: [comments[Math.floor(Math.random() * (comments.length))], comments[Math.floor(Math.random() * (comments.length+1))]]
+var photosGeneration = function(array) {
+  for (var i = 0; i < 25; i++) {
+    array[i] = {
+      url: "photos/" + numPhotoes[i] + ".jpg",
+      likes: Math.floor(Math.random() * (200 - 15)) + 15,
+      comments: [comments[Math.floor(Math.random() * (comments.length))], comments[Math.floor(Math.random() * (comments.length + 1))]]
+    }
+
+    var selection = Math.random();
+
+    if (selection > 0.5) {
+      array[i].comments.pop();
+    }
   }
+};
 
-  console.log(photos[i].comments);
-
-  var Y = Math.random();
-  console.log(Y);
-
-  if(Y > 0.5) {
-    this.comments[1].pop;
-  }
-}
+photosGeneration(photos);
 
 var similarListElement = document.querySelector(".pictures");
 var similarPhotoTemplate = document.querySelector("#picture-template").content.querySelector(".picture");
@@ -52,13 +53,17 @@ var renderPhoto = function(photos) {
   return photoElement;
 }
 
-var fragment = document.createDocumentFragment();
+var creatFragment = function(array) {
+  var fragment = document.createDocumentFragment();
 
-for (var i = 0; i < photos.length; i++) {
-  fragment.appendChild(renderPhoto(photos[i]));
-}
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderPhoto(array[i]));
+  }
 
-similarListElement.appendChild(fragment);
+  similarListElement.appendChild(fragment);
+};
+
+creatFragment(photos);
 
 //document.querySelector(".gallery-overlay").classList.remove("hidden");
 
@@ -95,22 +100,17 @@ var galleryComments = document.querySelector(".comments-count");
 for (var k = 0; k < pictures.length; k++) {
   pictures[k].addEventListener("click", function(evt) {
     evt.preventDefault();
-    console.log(this);
 
-      document.querySelector(".gallery-overlay").classList.remove("hidden");
-      var pictureThis = this.querySelector(".picture img");
-      var likesThis = this.querySelector(".picture-likes");
-      var commentsThis = this.querySelector(".picture-comments");
+    document.querySelector(".gallery-overlay").classList.remove("hidden");
+    var pictureThis = this.querySelector(".picture img");
+    var likesThis = this.querySelector(".picture-likes");
+    var commentsThis = this.querySelector(".picture-comments");
 
-      galleryImage.src = pictureThis.getAttribute('Src');
-      galleryLikes.innerHTML = likesThis.innerHTML;
-      galleryComments.innerHTML = commentsThis.innerHTML;
-      console.log(galleryComments);
-
-  }  );
+    galleryImage.src = pictureThis.getAttribute("src");
+    galleryLikes.innerHTML = likesThis.innerHTML;
+    galleryComments.innerHTML = commentsThis.innerHTML;
+  });
 }
-
-
 
 var buttonClose = document.querySelector(".gallery-overlay-close");
 
@@ -121,8 +121,25 @@ var closePicture = function() {
 
 buttonClose.addEventListener("click", closePicture);
 
-document.addEventListener("keydown", function(evt) { // DOCUMENT ???
+document.addEventListener("keydown", function(evt) {
   if (evt.keyCode === ESC_CODE) {
     closePicture();
   }
+})
+
+var uploadFile = document.querySelector("#upload-file"); //   ???
+var buttonClose = document.querySelector(".upload-form-cancel");
+var uploadOverlay = document.querySelector(".upload-overlay");
+var uploadMessage = document.querySelector(".upload-message");
+
+uploadFile.addEventListener("change", function(e) {
+  e.preventDefault();
+  uploadOverlay.classList.remove("hidden");
+  uploadMessage.classList.remove("hidden");
+})
+
+buttonClose.addEventListener("click", function(e) {
+  e.preventDefault();
+  uploadOverlay.classList.add("hidden");
+  uploadMessage.classList.add("hidden");
 })
