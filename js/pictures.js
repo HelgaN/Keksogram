@@ -127,19 +127,97 @@ document.addEventListener("keydown", function(evt) {
   }
 })
 
+var ESC_CODE = 27;
+var ENTER_CODE = 13;
+var uploadForm = document.querySelector(".upload-form");
 var uploadFile = document.querySelector("#upload-file"); //   ???
 var buttonClose = document.querySelector(".upload-form-cancel");
 var uploadOverlay = document.querySelector(".upload-overlay");
 var uploadMessage = document.querySelector(".upload-message");
+var comment = document.querySelector(".upload-form-description");
 
-uploadFile.addEventListener("change", function(e) {
+var openPopup = function(e) {
   e.preventDefault();
   uploadOverlay.classList.remove("hidden");
   uploadMessage.classList.remove("hidden");
-})
+};
 
-buttonClose.addEventListener("click", function(e) {
-  e.preventDefault();
+var closePopup = function() {
   uploadOverlay.classList.add("hidden");
   uploadMessage.classList.add("hidden");
-})
+};
+
+var onClosePopupEsc = function(e) {
+  var focusedElem = document.querySelector(":focus");
+  if (e.keyCode === ESC_CODE && focusedElem != comment) {
+    closePopup();
+  }
+};
+
+uploadFile.addEventListener("change", openPopup);
+
+buttonClose.addEventListener("click", closePopup);
+
+document.addEventListener("keydown", function(e) {
+  onClosePopupEsc(e);
+});
+
+var uploadResizeInput = document.querySelector(".upload-resize-controls-value");
+var buttonResizeDec = document.querySelector(".upload-resize-controls-button-dec");
+var buttonResizeInc = document.querySelector(".upload-resize-controls-button-inc");
+
+var onClickButtonResizeDec = function() {
+  var value = parseInt(uploadResizeInput.value, 10);
+
+  if(value > 20 && value <= 100) {
+    value -= 25;
+    if(value <= 25) {
+      value = 25;
+    }
+  }
+
+  uploadResizeInput.value = value + "%";
+}
+
+var onClickButtonResizeInc = function() {
+  var value = parseInt(uploadResizeInput.value, 10);
+
+  if(value > 0) {
+    value += 25;
+    if(value > 100) {
+      value = 100;
+    }
+  }
+
+  uploadResizeInput.value = value + "%";
+}
+
+buttonResizeDec.addEventListener("click", onClickButtonResizeDec);
+
+buttonResizeInc.addEventListener("click", onClickButtonResizeInc);
+
+var uploadImage = document.querySelector(".effect-image-preview");
+var uploadEffect = document.querySelector(".upload-effect-controls");
+
+uploadEffect.onclick = function(event) {
+  var target = event.target;
+
+  if(target.value == "heat") {
+    uploadImage.className = "effect-image-preview";
+    uploadImage.classList.add("effect-heat");
+  } else if(target.value == "phobos") {
+    uploadImage.className = "effect-image-preview";
+    uploadImage.classList.add("effect-phobos");
+  } else if(target.value == "marvin") {
+    uploadImage.className = "effect-image-preview";
+    uploadImage.classList.add("effect-marvin");
+  } else if(target.value == "sepia") {
+    uploadImage.className = "effect-image-preview";
+    uploadImage.classList.add("effect-sepia");
+  } else if(target.value == "chrome") {
+    uploadImage.className = "effect-image-preview";
+    uploadImage.classList.add("effect-chrome");
+  } else {
+    uploadImage.className = "effect-image-preview";
+  }
+};
