@@ -166,58 +166,92 @@ var uploadResizeInput = document.querySelector(".upload-resize-controls-value");
 var buttonResizeDec = document.querySelector(".upload-resize-controls-button-dec");
 var buttonResizeInc = document.querySelector(".upload-resize-controls-button-inc");
 
+var uploadImage = document.querySelector(".effect-image-preview");
+
 var onClickButtonResizeDec = function() {
   var value = parseInt(uploadResizeInput.value, 10);
 
-  if(value > 20 && value <= 100) {
+  if (value > 20 && value <= 100) {
     value -= 25;
-    if(value <= 25) {
+    if (value <= 25) {
       value = 25;
     }
   }
 
   uploadResizeInput.value = value + "%";
+  uploadImage.style.transform = "scale(" + value / 100 + ")";
 }
 
 var onClickButtonResizeInc = function() {
   var value = parseInt(uploadResizeInput.value, 10);
 
-  if(value > 0) {
+  if (value > 0) {
     value += 25;
-    if(value > 100) {
+    if (value > 100) {
       value = 100;
     }
   }
 
   uploadResizeInput.value = value + "%";
+  uploadImage.style.transform = "scale(" + value / 100 + ")";
 }
 
 buttonResizeDec.addEventListener("click", onClickButtonResizeDec);
 
 buttonResizeInc.addEventListener("click", onClickButtonResizeInc);
 
-var uploadImage = document.querySelector(".effect-image-preview");
+
 var uploadEffect = document.querySelector(".upload-effect-controls");
 
 uploadEffect.onclick = function(event) {
   var target = event.target;
 
-  if(target.value == "heat") {
+  if (target.value == "heat") {
     uploadImage.className = "effect-image-preview";
     uploadImage.classList.add("effect-heat");
-  } else if(target.value == "phobos") {
+  } else if (target.value == "phobos") {
     uploadImage.className = "effect-image-preview";
     uploadImage.classList.add("effect-phobos");
-  } else if(target.value == "marvin") {
+  } else if (target.value == "marvin") {
     uploadImage.className = "effect-image-preview";
     uploadImage.classList.add("effect-marvin");
-  } else if(target.value == "sepia") {
+  } else if (target.value == "sepia") {
     uploadImage.className = "effect-image-preview";
     uploadImage.classList.add("effect-sepia");
-  } else if(target.value == "chrome") {
+  } else if (target.value == "chrome") {
     uploadImage.className = "effect-image-preview";
     uploadImage.classList.add("effect-chrome");
   } else {
     uploadImage.className = "effect-image-preview";
   }
 };
+
+var uplaodHash = document.querySelector(".upload-form-hashtags");
+//var pattern = /(^#[a-zа-яё0-9]{1,30})/i;
+var testUniqueArray = function(arrayTest) {
+  var n = arrayTest.length;
+  for (var i = 0; i < n - 1; i++) {
+    for (var j = i + 1; j < n; j++) {
+      if (arrayTest[i] === arrayTest[j]) return false;
+    }
+  }
+  return true;
+}
+
+uploadForm.addEventListener("change", function() {
+  var uplaodHash = document.querySelector(".upload-form-hashtags");
+  var pattern = /(^#[a-zа-яё0-9]{1,20}\s)/i;
+
+  console.log(pattern.test(uplaodHash.value));
+  var arr = uplaodHash.value.split(" ");
+  var result = testUniqueArray(arr);
+  console.log(testUniqueArray(arr));
+  if(pattern.test(uplaodHash.value) && result) {
+    alert("Няняняняняня!");
+  }
+
+});
+
+uploadForm.addEventListener("submit", function() {
+
+});
