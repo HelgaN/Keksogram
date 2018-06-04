@@ -234,24 +234,23 @@ var testUniqueArray = function(arrayTest) {
     for (var j = i + 1; j < n; j++) {
       if (arrayTest[i] === arrayTest[j]) return false;
     }
+    if(arrayTest.length > 5) return false;
   }
   return true;
 }
 
-uploadForm.addEventListener("change", function() {
+uploadForm.addEventListener("submit", function(evt) {
   var uplaodHash = document.querySelector(".upload-form-hashtags");
-  var pattern = /(^#[a-zа-яё0-9]{1,20}\s)/i;
-
+  var pattern = /(^#[a-zа-яё0-9]{1,20})/i;
   console.log(pattern.test(uplaodHash.value));
   var arr = uplaodHash.value.split(" ");
   var result = testUniqueArray(arr);
+  if(!arr[0]) return true;
   console.log(testUniqueArray(arr));
   if(pattern.test(uplaodHash.value) && result) {
-    alert("Няняняняняня!");
+    return true;
+  } else {
+    evt.preventDefault();
   }
-
-});
-
-uploadForm.addEventListener("submit", function() {
-
+  uplaodHash.style.border = "5px solid red";
 });
