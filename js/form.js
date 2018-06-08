@@ -166,6 +166,70 @@
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
 
-  })
+  });
+
+  var ESC_CODE = 27;
+  var ENTER_CODE = 13;
+  var uploadForm = document.querySelector(".upload-form");
+  var uploadFile = document.querySelector("#upload-file"); //   ???
+  var buttonClose = document.querySelector(".upload-form-cancel");
+  var uploadOverlay = document.querySelector(".upload-overlay");
+  var uploadMessage = document.querySelector(".upload-message");
+  var comment = document.querySelector(".upload-form-description");
+
+  var openPopup = function(e) {
+    e.preventDefault();
+    uploadOverlay.classList.remove("hidden");
+    uploadMessage.classList.remove("hidden");
+  };
+
+  var closePopup = function() {
+    uploadOverlay.classList.add("hidden");
+    uploadMessage.classList.add("hidden");
+  };
+
+  var onClosePopupEsc = function(e) {
+    var focusedElem = document.querySelector(":focus");
+    if (e.keyCode === ESC_CODE && focusedElem != comment) {
+      closePopup();
+    }
+  };
+
+  uploadFile.addEventListener("change", openPopup);
+
+  buttonClose.addEventListener("click", closePopup);
+
+  document.addEventListener("keydown", function(e) {
+    onClosePopupEsc(e);
+  });
+
+  var uplaodHash = document.querySelector(".upload-form-hashtags");
+
+  var testUniqueArray = function(arrayTest) {
+    var n = arrayTest.length;
+    for (var i = 0; i < n - 1; i++) {
+      for (var j = i + 1; j < n; j++) {
+        if (arrayTest[i] === arrayTest[j]) return false;
+      }
+      if(arrayTest.length > 5) return false;
+    }
+    return true;
+  }
+
+  uploadForm.addEventListener("submit", function(evt) {
+    var uplaodHash = document.querySelector(".upload-form-hashtags");
+    var pattern = /(^#[a-zа-яё0-9]{1,20})/i;
+    console.log(pattern.test(uplaodHash.value));
+    var arr = uplaodHash.value.split(" ");
+    var result = testUniqueArray(arr);
+    if(!arr[0]) return true;
+    console.log(testUniqueArray(arr));
+    if(pattern.test(uplaodHash.value) && result) {
+      return true;
+    } else {
+      evt.preventDefault();
+    }
+    uplaodHash.style.border = "5px solid red";
+  });
 
 })();
