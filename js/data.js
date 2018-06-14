@@ -22,7 +22,7 @@
   var comments = ["Всё отлично!", "В целом всё неплохо. Но не всё.", "Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.", "Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.", "Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.", "Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!"];
 
   var photos = [];
-
+/* случайная генерация фоток
   var photosGeneration = function(array) {
     for (var i = 0; i < 25; i++) {
       array[i] = {
@@ -39,7 +39,7 @@
     }
   };
 
-  photosGeneration(photos);
+  photosGeneration(photos);*/
 
   var similarListElement = document.querySelector(".pictures");
   var similarPhotoTemplate = document.querySelector("#picture-template").content.querySelector(".picture");
@@ -49,11 +49,11 @@
 
     photoElement.querySelector("img").src = photos.url;
     photoElement.querySelector(".picture-likes").innerHTML = photos.likes;
-    photoElement.querySelector(".picture-comments").innerHTML = photos.comments.length;
+    photoElement.querySelector(".picture-comments").innerHTML = photos.comments;
 
     return photoElement;
   }
-
+/* случайная генерация фоток
   var creatFragment = function(array) {
     var fragment = document.createDocumentFragment();
 
@@ -64,14 +64,38 @@
     similarListElement.appendChild(fragment);
   };
 
-  creatFragment(photos);
+  creatFragment(photos);*/
+
+  var successHandler = function(photos) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(renderPhoto(photos[i]));
+    }
+
+    similarListElement.appendChild(fragment);
+  };
+
+  var errorHandler = function(errorMessage) {
+    var node = document.createElement("div");
+    node.style = "z-index: 100; margin: 0 auto; text-align: center; background-color: red;";
+    node.style.left = "0";
+    node.style.right = "0";
+    node.style.fontSize = "30px;";
+
+    node.textContent = errorMessage;
+
+    document.body.insertAdjacentElement("afterbegin", node);
+  };
+
+  window.load(successHandler, errorHandler);
 
   //document.querySelector(".gallery-overlay").classList.remove("hidden");
 
   var galleryImage = document.querySelector(".gallery-overlay-image");
   var galleryLikes = document.querySelector(".likes-count");
   var galleryComments = document.querySelector(".comments-count");
-
+/* для случайной генерации данных
   var countComments = function() {
 
     if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
@@ -89,5 +113,6 @@
   }
 
   countComments();
-  
+*/
+
 })();

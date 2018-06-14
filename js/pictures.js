@@ -1,6 +1,8 @@
 "use strict";
 
 (function() {
+
+window.showPic = function() {
   var ESC_CODE = 27;
   var ENTER_CODE = 13;
   var pictures = document.querySelectorAll(".picture");
@@ -8,6 +10,7 @@
   var galleryImage = document.querySelector(".gallery-overlay-image");
   var galleryLikes = document.querySelector(".likes-count");
   var galleryComments = document.querySelector(".comments-count");
+
 
   for (var k = 0; k < pictures.length; k++) {
     pictures[k].addEventListener("click", function(evt) {
@@ -38,4 +41,5 @@
       closePicture();
     }
   })
+}
 })();
