@@ -2,42 +2,17 @@
 
 (function() {
   var uploadResizeInput = document.querySelector(".upload-resize-controls-value");
-  var buttonResizeDec = document.querySelector(".upload-resize-controls-button-dec");
-  var buttonResizeInc = document.querySelector(".upload-resize-controls-button-inc");
-
   var uploadImage = document.querySelector(".effect-image-preview");
 
-  var onClickButtonResizeDec = function() {
-    var value = parseInt(uploadResizeInput.value, 10);
+  var scaleElement = document.querySelector(".upload-resize-controls");
 
-    if (value > 20 && value <= 100) {
-      value -= 25;
-      if (value <= 25) {
-        value = 25;
-      }
-    }
+  var adjustScale = function(scale) {
+    uploadResizeInput.value = scale + "%";
+    uploadImage.style.transform = "scale(" + scale / 100 + ")";
+  };
 
-    uploadResizeInput.value = value + "%";
-    uploadImage.style.transform = "scale(" + value / 100 + ")";
-  }
+  window.initializeScale(scaleElement, adjustScale);
 
-  var onClickButtonResizeInc = function() {
-    var value = parseInt(uploadResizeInput.value, 10);
-
-    if (value > 0) {
-      value += 25;
-      if (value > 100) {
-        value = 100;
-      }
-    }
-
-    uploadResizeInput.value = value + "%";
-    uploadImage.style.transform = "scale(" + value / 100 + ")";
-  }
-
-  buttonResizeDec.addEventListener("click", onClickButtonResizeDec);
-
-  buttonResizeInc.addEventListener("click", onClickButtonResizeInc);
 
   var uploadEffect = document.querySelector(".upload-effect-controls");
   var effectLevelWrap = document.querySelector(".upload-effect-level");
@@ -77,9 +52,9 @@
       effectLevelWrap.style.display = "none";
     }
 
-  /*  if (uploadImage.classList.contains("effect-sepia") || uploadImage.classList.contains("effect-chrome")) {
-      effectLevelWrap.style.display = "block";
-    } */
+    /*  if (uploadImage.classList.contains("effect-sepia") || uploadImage.classList.contains("effect-chrome")) {
+        effectLevelWrap.style.display = "block";
+      } */
   }
 
   var onAddEffect = function(event) {
@@ -211,7 +186,7 @@
       for (var j = i + 1; j < n; j++) {
         if (arrayTest[i] === arrayTest[j]) return false;
       }
-      if(arrayTest.length > 5) return false;
+      if (arrayTest.length > 5) return false;
     }
     return true;
   }
@@ -222,9 +197,9 @@
     console.log(pattern.test(uplaodHash.value));
     var arr = uplaodHash.value.split(" ");
     var result = testUniqueArray(arr);
-    if(!arr[0]) return true;
+    if (!arr[0]) return true;
     console.log(testUniqueArray(arr));
-    if(pattern.test(uplaodHash.value) && result) {
+    if (pattern.test(uplaodHash.value) && result) {
       return true;
     } else {
       evt.preventDefault();
