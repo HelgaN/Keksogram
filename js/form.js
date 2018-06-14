@@ -13,7 +13,6 @@
 
   window.initializeScale(scaleElement, adjustScale);
 
-
   var uploadEffect = document.querySelector(".upload-effect-controls");
   var effectLevelWrap = document.querySelector(".upload-effect-level");
   effectLevelWrap.style.display = "none";
@@ -51,49 +50,9 @@
       effectNone.style.filter = "";
       effectLevelWrap.style.display = "none";
     }
-
-    /*  if (uploadImage.classList.contains("effect-sepia") || uploadImage.classList.contains("effect-chrome")) {
-        effectLevelWrap.style.display = "block";
-      } */
   }
 
-  var onAddEffect = function(event) {
-    var target = event.target;
-
-    if (target.value == "heat") {
-      uploadImage.className = "effect-image-preview";
-      uploadImage.classList.add("effect-heat");
-    } else if (target.value == "phobos") {
-      uploadImage.className = "effect-image-preview";
-      uploadImage.classList.add("effect-phobos");
-    } else if (target.value == "marvin") {
-      uploadImage.className = "effect-image-preview";
-      uploadImage.classList.add("effect-marvin");
-    } else if (target.value == "sepia") {
-      uploadImage.className = "effect-image-preview";
-      uploadImage.classList.add("effect-sepia");
-    } else if (target.value == "chrome") {
-      uploadImage.className = "effect-image-preview";
-      uploadImage.classList.add("effect-chrome");
-    } else if (target.value == "none") {
-      uploadImage.className = "effect-image-preview";
-    }
-    addEffectVal();
-  };
-
-  var onResetStylePin = function() {
-    pin.style.left = "20%";
-    val.style.width = "20%";
-  };
-
-  var labelsEffect = document.querySelectorAll(".upload-effect-label");
-  for (var i = 0; i < labelsEffect.length; i++) {
-    labelsEffect[i].addEventListener("click", function() {
-      onResetStylePin();
-    })
-  }
-
-  uploadEffect.addEventListener("click", onAddEffect);
+  window.initializeFilters(uploadEffect, addEffectVal);
 
   var line = effectLevelWrap.querySelector(".upload-effect-level-line");
   var pin = effectLevelWrap.querySelector(".upload-effect-level-pin");
