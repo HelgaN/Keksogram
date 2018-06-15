@@ -20,10 +20,16 @@ window.showPic = function() {
       var pictureThis = this.querySelector(".picture img");
       var likesThis = this.querySelector(".picture-likes");
       var commentsThis = this.querySelector(".picture-comments");
+      var arrCommentsThis = commentsThis.innerText.split(",");
+      console.log(arrCommentsThis);
 
       galleryImage.src = pictureThis.getAttribute("src");
       galleryLikes.innerHTML = likesThis.innerHTML;
-      galleryComments.innerHTML = commentsThis.innerHTML;
+      /*galleryComments.innerHTML = commentsThis.innerHTML;*/
+
+      arrCommentsThis.forEach(function(item, i, array) {
+        galleryComments.innerHTML = arrCommentsThis[i].length;
+      });
     });
   }
 

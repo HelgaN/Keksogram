@@ -150,7 +150,7 @@
     return true;
   }
 
-  uploadForm.addEventListener("submit", function(evt) {
+  uploadForm.addEventListener("click", function(evt) {   /* не лучший вариант, но прокатило вроде :) */
     var uplaodHash = document.querySelector(".upload-form-hashtags");
     var pattern = /(^#[a-zа-яё0-9]{1,20})/i;
     console.log(pattern.test(uplaodHash.value));

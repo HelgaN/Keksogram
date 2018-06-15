@@ -76,6 +76,13 @@
     similarListElement.appendChild(fragment);
   };
 
+  var successHandlerUpload = function() {
+    var uploadOverlay = document.querySelector(".upload-overlay");
+    var uploadMessage = document.querySelector(".upload-message");
+    uploadOverlay.classList.add("hidden");
+    uploadMessage.classList.add("hidden");
+  }
+
   var errorHandler = function(errorMessage) {
     var node = document.createElement("div");
     node.style = "z-index: 100; margin: 0 auto; text-align: center; background-color: red;";
@@ -89,6 +96,15 @@
   };
 
   window.load(successHandler, errorHandler);
+
+  var uploadForm = document.querySelector(".upload-form");
+
+  uploadForm.addEventListener("submit", function(evt) {
+    evt.preventDefault();
+    window.upload(new FormData(uploadForm), successHandlerUpload, errorHandler);
+  });
+
+
 
   //document.querySelector(".gallery-overlay").classList.remove("hidden");
 
