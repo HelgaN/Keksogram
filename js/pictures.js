@@ -21,7 +21,6 @@ window.showPic = function() {
       var likesThis = this.querySelector(".picture-likes");
       var commentsThis = this.querySelector(".picture-comments");
       var arrCommentsThis = commentsThis.innerText.split(",");
-      console.log(arrCommentsThis);
 
       galleryImage.src = pictureThis.getAttribute("src");
       galleryLikes.innerHTML = likesThis.innerHTML;
@@ -48,4 +47,5 @@ window.showPic = function() {
     }
   })
 }
+
 })();

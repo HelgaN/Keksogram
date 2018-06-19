@@ -1,6 +1,7 @@
 "use strict";
 
 (function() {
+/*  случайная генерация фоток
   var numPhotoes = [];
 
   for (var i = 0; i < 25; i++) {
@@ -20,8 +21,9 @@
   numPhotoes = shuffleArray(numPhotoes);
 
   var comments = ["Всё отлично!", "В целом всё неплохо. Но не всё.", "Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.", "Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.", "Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.", "Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!"];
-
+*/
   var photos = [];
+  var filtersForm = document.querySelector(".filters").classList.remove("hidden");
 /* случайная генерация фоток
   var photosGeneration = function(array) {
     for (var i = 0; i < 25; i++) {
@@ -65,8 +67,64 @@
   };
 
   creatFragment(photos);*/
+  var sortPopular = function() {
+    while (similarListElement.firstChild) {
+      similarListElement.removeChild(similarListElement.firstChild);
+    }
+    var photosSortPopular = photos.slice();
+    photosSortPopular.sort(function(left, right) {
+      return right.likes - left.likes;
+    });
 
-  var successHandler = function(photos) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < photosSortPopular.length; i++) {
+      fragment.appendChild(renderPhoto(photosSortPopular[i]));
+    }
+
+    similarListElement.appendChild(fragment);
+  };
+
+  var sortDiscuss = function() {
+    while (similarListElement.firstChild) {
+      similarListElement.removeChild(similarListElement.firstChild);
+    }
+    var photosSortDiscuss = photos.slice();
+    photosSortDiscuss.sort(function(left, right) {
+      return right.comments.length - left.comments.length;
+    });
+
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < photosSortDiscuss.length; i++) {
+      fragment.appendChild(renderPhoto(photosSortDiscuss[i]));
+    }
+
+    similarListElement.appendChild(fragment);
+  };
+
+  var sortRandom = function() {
+    while (similarListElement.firstChild) {
+      similarListElement.removeChild(similarListElement.firstChild);
+    }
+    var photosSortRandom = photos.slice();
+    photosSortRandom.sort(function(left, right) {
+      return Math.random() - 0.5;
+    });
+
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < photosSortRandom.length; i++) {
+      fragment.appendChild(renderPhoto(photosSortRandom[i]));
+    }
+
+    similarListElement.appendChild(fragment);
+  };
+
+  var updatePhotos = function() {
+    while (similarListElement.firstChild) {
+      similarListElement.removeChild(similarListElement.firstChild);
+    }
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < photos.length; i++) {
@@ -74,6 +132,12 @@
     }
 
     similarListElement.appendChild(fragment);
+  };
+
+  var successHandler = function(data) {
+    photos = data;
+    console.log(photos);
+    updatePhotos();
   };
 
   var successHandlerUpload = function() {
@@ -96,6 +160,30 @@
   };
 
   window.load(successHandler, errorHandler);
+
+  var filterPopular = document.querySelector("input[value='popular']");
+  filterPopular.addEventListener("click", function() {
+    sortPopular();
+    showPic();
+  });
+
+  var filterRecommend = document.querySelector("input[value='recommend']");
+  filterRecommend.addEventListener("click", function() {
+    updatePhotos();
+    showPic();
+  });
+
+  var filterDiscuss = document.querySelector("input[value='discussed']");
+  filterDiscuss.addEventListener("click", function() {
+    sortDiscuss();
+    showPic();
+  });
+
+  var filterRandom = document.querySelector("input[value='random']");
+  filterRandom.addEventListener("click", function() {
+    sortRandom();
+    showPic();
+  });
 
   var uploadForm = document.querySelector(".upload-form");
 
