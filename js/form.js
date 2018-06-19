@@ -61,7 +61,7 @@
   pin.addEventListener("mousedown", function(evt) {
     evt.preventDefault();
     var startCoords = {
-      x: evt.pageX
+      x: evt.pageX - val.offsetWidth - val.offsetLeft
     }
 
     var onMouseMove = function(moveEvt) {
@@ -71,13 +71,18 @@
         var shift = {
           x: moveEvt.pageX - startCoords.x
         }
-      } else {
+
+      } else if(moveEvt.pageX > startCoords.x && moveEvt.pageX >= line.offsetLeft) {
         var shift = {
           x: startCoords.x - moveEvt.pageX
         }
 
         startCoords = {
           x: shift.x
+        }
+      } else {
+        var shift = {
+          x: 0
         }
       }
 
@@ -150,7 +155,7 @@
     return true;
   }
 
-  uploadForm.addEventListener("click", function(evt) {   /* не лучший вариант, но прокатило вроде :) */
+  uploadForm.addEventListener("click", function(evt) { /* не лучший вариант, но прокатило вроде :) */
     var uplaodHash = document.querySelector(".upload-form-hashtags");
     var pattern = /(^#[a-zа-яё0-9]{1,20})/i;
     console.log(pattern.test(uplaodHash.value));
