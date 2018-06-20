@@ -136,7 +136,6 @@
 
   var successHandler = function(data) {
     photos = data;
-    console.log(photos);
     updatePhotos();
   };
 
