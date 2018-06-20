@@ -1,47 +1,47 @@
 "use strict";
 
 (function() {
-/*  случайная генерация фоток
-  var numPhotoes = [];
+  /*  случайная генерация фоток
+    var numPhotoes = [];
 
-  for (var i = 0; i < 25; i++) {
-    numPhotoes[i] = i + 1;
-  }
-
-  function shuffleArray(numPhotoes) {
-    for (var i = numPhotoes.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = numPhotoes[i];
-      numPhotoes[i] = numPhotoes[j];
-      numPhotoes[j] = temp;
+    for (var i = 0; i < 25; i++) {
+      numPhotoes[i] = i + 1;
     }
-    return numPhotoes;
-  }
 
-  numPhotoes = shuffleArray(numPhotoes);
+    function shuffleArray(numPhotoes) {
+      for (var i = numPhotoes.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = numPhotoes[i];
+        numPhotoes[i] = numPhotoes[j];
+        numPhotoes[j] = temp;
+      }
+      return numPhotoes;
+    }
 
-  var comments = ["Всё отлично!", "В целом всё неплохо. Но не всё.", "Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.", "Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.", "Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.", "Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!"];
-*/
+    numPhotoes = shuffleArray(numPhotoes);
+
+    var comments = ["Всё отлично!", "В целом всё неплохо. Но не всё.", "Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.", "Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.", "Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.", "Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!"];
+  */
   var photos = [];
   var filtersForm = document.querySelector(".filters").classList.remove("hidden");
-/* случайная генерация фоток
-  var photosGeneration = function(array) {
-    for (var i = 0; i < 25; i++) {
-      array[i] = {
-        url: "photos/" + numPhotoes[i] + ".jpg",
-        likes: Math.floor(Math.random() * (200 - 15)) + 15,
-        comments: [comments[Math.floor(Math.random() * (comments.length))], comments[Math.floor(Math.random() * (comments.length + 1))]]
+  /* случайная генерация фоток
+    var photosGeneration = function(array) {
+      for (var i = 0; i < 25; i++) {
+        array[i] = {
+          url: "photos/" + numPhotoes[i] + ".jpg",
+          likes: Math.floor(Math.random() * (200 - 15)) + 15,
+          comments: [comments[Math.floor(Math.random() * (comments.length))], comments[Math.floor(Math.random() * (comments.length + 1))]]
+        }
+
+        var selection = Math.random();
+
+        if (selection > 0.5) {
+          array[i].comments.pop();
+        }
       }
+    };
 
-      var selection = Math.random();
-
-      if (selection > 0.5) {
-        array[i].comments.pop();
-      }
-    }
-  };
-
-  photosGeneration(photos);*/
+    photosGeneration(photos);*/
 
   var similarListElement = document.querySelector(".pictures");
   var similarPhotoTemplate = document.querySelector("#picture-template").content.querySelector(".picture");
@@ -55,18 +55,18 @@
 
     return photoElement;
   }
-/* случайная генерация фоток
-  var creatFragment = function(array) {
-    var fragment = document.createDocumentFragment();
+  /* случайная генерация фоток
+    var creatFragment = function(array) {
+      var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(renderPhoto(array[i]));
-    }
+      for (var i = 0; i < array.length; i++) {
+        fragment.appendChild(renderPhoto(array[i]));
+      }
 
-    similarListElement.appendChild(fragment);
-  };
+      similarListElement.appendChild(fragment);
+    };
 
-  creatFragment(photos);*/
+    creatFragment(photos);*/
   var sortPopular = function() {
     while (similarListElement.firstChild) {
       similarListElement.removeChild(similarListElement.firstChild);
@@ -161,28 +161,42 @@
 
   window.load(successHandler, errorHandler);
 
+  var prevTimer;
+
   var filterPopular = document.querySelector("input[value='popular']");
   filterPopular.addEventListener("click", function() {
-    sortPopular();
-    showPic();
+    clearTimeout(prevTimer);
+    prevTimer = setTimeout(function() {
+      sortPopular();
+      showPic();
+    }, 500);
   });
 
   var filterRecommend = document.querySelector("input[value='recommend']");
   filterRecommend.addEventListener("click", function() {
-    updatePhotos();
-    showPic();
+    clearTimeout(prevTimer);
+    prevTimer = setTimeout(function() {
+      updatePhotos();
+      showPic();
+    }, 500);
   });
 
   var filterDiscuss = document.querySelector("input[value='discussed']");
   filterDiscuss.addEventListener("click", function() {
-    sortDiscuss();
-    showPic();
+    clearTimeout(prevTimer);
+    prevTimer = setTimeout(function() {
+      sortDiscuss();
+      showPic();
+    }, 500);
   });
 
   var filterRandom = document.querySelector("input[value='random']");
   filterRandom.addEventListener("click", function() {
-    sortRandom();
-    showPic();
+    clearTimeout(prevTimer);
+    prevTimer = setTimeout(function() {
+      sortRandom();
+      showPic();
+    }, 500);
   });
 
   var uploadForm = document.querySelector(".upload-form");
@@ -199,24 +213,24 @@
   var galleryImage = document.querySelector(".gallery-overlay-image");
   var galleryLikes = document.querySelector(".likes-count");
   var galleryComments = document.querySelector(".comments-count");
-/* для случайной генерации данных
-  var countComments = function() {
+  /* для случайной генерации данных
+    var countComments = function() {
 
-    if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
-      return galleryComments.innerHTML = "0";
+      if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
+        return galleryComments.innerHTML = "0";
+      }
+
+      if (photos[0].comments[0] !== undefined && photos[0].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
+        photos[0].comments.join('');
+        return galleryComments.innerHTML = "1";
+      }
+
+      if (photos[0].comments[0] !== undefined && photos[0].comments[1] !== undefined) {
+        return galleryComments.innerHTML = "2";
+      }
     }
 
-    if (photos[0].comments[0] !== undefined && photos[0].comments[1] === undefined || photos[0].comments[0] === undefined && photos[0].comments[1] !== undefined) {
-      photos[0].comments.join('');
-      return galleryComments.innerHTML = "1";
-    }
-
-    if (photos[0].comments[0] !== undefined && photos[0].comments[1] !== undefined) {
-      return galleryComments.innerHTML = "2";
-    }
-  }
-
-  countComments();
-*/
+    countComments();
+  */
 
 })();
