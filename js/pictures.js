@@ -10,28 +10,6 @@
     var galleryImage = document.querySelector(".gallery-overlay-image");
     var galleryLikes = document.querySelector(".likes-count");
     var galleryComments = document.querySelector(".comments-count");
-    console.log(pictures)
-
-    var likeButton = document.querySelector(".likes-count");
-    var onClickLike = function() {
-      likeButton.classList.toggle("likes-count-liked");
-      var countLikes = Number.parseInt(likeButton.innerText);
-      if (likeButton.classList.contains("likes-count-liked")) {
-        likeButton.innerText = countLikes += 1;
-      } else {
-        likeButton.innerText = countLikes -= 1;
-      }
-    }
-
-    var clearLike = function() {
-      var countLikes = Number.parseInt(likeButton.innerText);
-      if (likeButton.classList.contains("likes-count-liked")) {
-        likeButton.innerText = countLikes -= 1;
-        likeButton.classList.remove("likes-count-liked");
-      }
-    }
-
-    likeButton.addEventListener("click", onClickLike);
 
     for (var k = 0; k < pictures.length; k++) {
       pictures[k].addEventListener("click", function(evt) {
@@ -41,15 +19,25 @@
         var pictureThis = this.querySelector(".picture img");
         var likesThis = this.querySelector(".picture-likes");
         var commentsThis = this.querySelector(".picture-comments");
-        var arrCommentsThis = commentsThis.innerText.split(",");
+        var arrCommentsThis = commentsThis.innerText.split(/[.!?],/);
 
         galleryImage.src = pictureThis.getAttribute("src");
         galleryLikes.innerHTML = likesThis.innerHTML;
-        /*galleryComments.innerHTML = commentsThis.innerHTML;*/
+        galleryComments.innerHTML = arrCommentsThis.length;
+
+      /*  arrCommentsThis.forEach(function(item, i, array) {
+          galleryComments.innerHTML = arrCommentsThis[i].length;
+        });*/
+
+    /*    var galleryControls = document.querySelector(".gallery-overlay-controls");
 
         arrCommentsThis.forEach(function(item, i, array) {
-          galleryComments.innerHTML = arrCommentsThis[i].length;
+          var comment = document.createElement("p");
+          comment.innerHTML = item;
+          comment.className = "comment-item";
+          galleryControls.appendChild(comment);
         });
+*/
 
       });
 
@@ -72,5 +60,27 @@
     })
 
   }
+
+  var likeButton = document.querySelector(".likes-count");
+
+  var onClickLike = function() {
+    likeButton.classList.toggle("likes-count-liked");
+    var countLikes = Number.parseInt(likeButton.innerText);
+    if (likeButton.classList.contains("likes-count-liked")) {
+      likeButton.innerText = countLikes += 1;
+    } else {
+      likeButton.innerText = countLikes -= 1;
+    }
+  }
+
+  var clearLike = function() {
+    var countLikes = Number.parseInt(likeButton.innerText);
+    if (likeButton.classList.contains("likes-count-liked")) {
+      likeButton.innerText = countLikes -= 1;
+      likeButton.classList.remove("likes-count-liked");
+    }
+  }
+
+  likeButton.addEventListener("click", onClickLike);
 
 })();

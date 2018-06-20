@@ -749,6 +749,16 @@ input[type=radio]:checked + .upload-effect-label .upload-effect-preview {
   text-align: left;
 }
 
+.comment-item {
+  width: 600px;
+  box-sizing: border-box;
+  margin: 0 0 20px;
+  padding: 0 40px;
+  text-align: left;
+  font-style: italic;
+  color: gray;
+}
+
 .gallery-overlay-controls-like {
   float: right;
   width: 150px;
