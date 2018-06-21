@@ -48,12 +48,13 @@
 
   var renderPhoto = function(photos) {
     var photoElement = similarPhotoTemplate.cloneNode("true");
-    console.log(photos.comments);
 
     photoElement.querySelector("img").src = photos.url;
     photoElement.querySelector(".picture-likes").innerHTML = photos.likes;
     photos.comments.forEach(function(item, i, arr) {
-      photoElement.querySelector(".picture-comments").innerHTML += "<p>" + photos.comments[i] + "</p>";
+      var p = document.createElement("p");
+      p.innerHTML = photos.comments[i];
+      photoElement.querySelector(".picture-comments").appendChild(p);
     });
 
     return photoElement;

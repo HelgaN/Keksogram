@@ -19,7 +19,7 @@
         var pictureThis = this.querySelector(".picture img");
         var likesThis = this.querySelector(".picture-likes");
         var commentsThis = this.querySelector(".picture-comments");
-        console.log(commentsThis);
+
         /*  var arrCommentsThis = commentsThis.innerText.split(/[.!?],/);*/
 
         galleryImage.src = pictureThis.getAttribute("src");
@@ -32,9 +32,12 @@
 
         var galleryControls = document.querySelector(".gallery-overlay-controls");
         var commentsThis = commentsThis.querySelectorAll("p");
+
         commentsThis.forEach(function(item, i, arr) {
-          galleryControls.appendChild(item);
-          item.classList.add("comment-item");
+          console.log(item + "   " +  i);
+          var b = item.cloneNode(true)
+          galleryControls.appendChild(b);
+          b.classList.add("comment-item");
         })
 
       });
