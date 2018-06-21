@@ -19,25 +19,23 @@
         var pictureThis = this.querySelector(".picture img");
         var likesThis = this.querySelector(".picture-likes");
         var commentsThis = this.querySelector(".picture-comments");
-        var arrCommentsThis = commentsThis.innerText.split(/[.!?],/);
+        console.log(commentsThis);
+        /*  var arrCommentsThis = commentsThis.innerText.split(/[.!?],/);*/
 
         galleryImage.src = pictureThis.getAttribute("src");
         galleryLikes.innerHTML = likesThis.innerHTML;
-        galleryComments.innerHTML = arrCommentsThis.length;
+        galleryComments.innerHTML = commentsThis.childNodes.length;
 
-      /*  arrCommentsThis.forEach(function(item, i, array) {
-          galleryComments.innerHTML = arrCommentsThis[i].length;
-        });*/
+        /*  arrCommentsThis.forEach(function(item, i, array) {
+            galleryComments.innerHTML = arrCommentsThis[i].length;
+          });*/
 
-    /*    var galleryControls = document.querySelector(".gallery-overlay-controls");
-
-        arrCommentsThis.forEach(function(item, i, array) {
-          var comment = document.createElement("p");
-          comment.innerHTML = item;
-          comment.className = "comment-item";
-          galleryControls.appendChild(comment);
-        });
-*/
+        var galleryControls = document.querySelector(".gallery-overlay-controls");
+        var commentsThis = commentsThis.querySelectorAll("p");
+        commentsThis.forEach(function(item, i, arr) {
+          galleryControls.appendChild(item);
+          item.classList.add("comment-item");
+        })
 
       });
 
@@ -49,6 +47,7 @@
       var pictureFull = document.querySelector(".gallery-overlay");
       pictureFull.classList.add("hidden");
       clearLike();
+      clearComments();
     };
 
     buttonClose.addEventListener("click", closePicture);
@@ -80,6 +79,14 @@
       likeButton.classList.remove("likes-count-liked");
     }
   }
+
+  var clearComments = function() {
+    var galleryControls = document.querySelector(".gallery-overlay-controls");
+    var commentsThis = galleryControls.querySelectorAll("p");
+    commentsThis.forEach(function(item, i, arr) {
+      galleryControls.removeChild(item);
+    })
+  };
 
   likeButton.addEventListener("click", onClickLike);
 

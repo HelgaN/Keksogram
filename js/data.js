@@ -48,10 +48,13 @@
 
   var renderPhoto = function(photos) {
     var photoElement = similarPhotoTemplate.cloneNode("true");
+    console.log(photos.comments);
 
     photoElement.querySelector("img").src = photos.url;
     photoElement.querySelector(".picture-likes").innerHTML = photos.likes;
-    photoElement.querySelector(".picture-comments").innerHTML = photos.comments;
+    photos.comments.forEach(function(item, i, arr) {
+      photoElement.querySelector(".picture-comments").innerHTML += "<p>" + photos.comments[i] + "</p>";
+    });
 
     return photoElement;
   }
@@ -208,11 +211,11 @@
 
 
   //document.querySelector(".gallery-overlay").classList.remove("hidden");
-
+/*
   var galleryImage = document.querySelector(".gallery-overlay-image");
   var galleryLikes = document.querySelector(".likes-count");
   var galleryComments = document.querySelector(".comments-count");
-  /* для случайной генерации данных
+   для случайной генерации данных
     var countComments = function() {
 
       if (photos[0].comments[0] === undefined && photos[0].comments[1] === undefined) {
